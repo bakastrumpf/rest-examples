@@ -53,21 +53,23 @@ public class BankClientRestController {
 		return null;
 	}
 
+	// ubuduće će ovo biti u repozitorijumu
+	// ali dok ne počnemo da radimo s repozitorijumima zasad ostaje ovde
 	private List<BankClientBean> getDB() {
 		// zatražiti bazu klijenata
 		
 		/*
 		List<BankClientBean> clients2 = new ArrayList<BankClientBean>();
-		clients2.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "vd@uns.ac.rs"));
-		clients2.add(new BankClientBean(2, "Marija", "Savic", "mssa@ff.uns.ac.rs"));
-		clients2.add(new BankClientBean(3, "Stiv", "The maniac", "stma@ff.uns.ac.rs"));
+		clients2.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs"));
+		clients2.add(new BankClientBean(2, "M", "S", "mssa@ff.uns.ac.rs"));
+		clients2.add(new BankClientBean(3, "S", "TM", "stma@ff.uns.ac.rs"));
 		return clients2;
 		*/
 		
 		List<BankClientBean> clients = new ArrayList<BankClientBean>();
-		clients.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "vd@uns.ac.rs"));
-		clients.add(new BankClientBean(2, "Marija", "Savic", "mss@ff.uns.ac.rs"));
-		clients.add(new BankClientBean(3, "Stiv", "The maniac", "stm@ff.uns.ac.rs"));
+		clients.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs"));
+		clients.add(new BankClientBean(2, "M", "S", "mss@ff.uns.ac.rs"));
+		clients.add(new BankClientBean(3, "S", "TM", "stm@ff.uns.ac.rs"));
 		// vratiti klijente kao odgovor na zahtev
 		return clients;
 		
@@ -163,6 +165,7 @@ public class BankClientRestController {
 		}
 		return retStr;
 	}
+	
 	/*
 Zadatak 1
 • Kreirati sledeće REST endpointe
@@ -178,15 +181,15 @@ prezime počinje na slovo koje je prosleđeno kao parametar
 
 Zadatak 2
 • Kreirati sledeće REST endpointe
-• 2.1 endpoint koji u listi klijenata banke, svakom klijentu, postavlja
-polje bonitet na ‘P’ (pozitivan) ako je klijent mlađi od 65 godina ili
+• 2.1 endpoint koji u listi klijenata banke, svakom klijentu, postavlja polje bonitet na 
+‘P’ (pozitivan) ako je klijent mlađi od 65 godina ili
 ‘N’ negativan ako je klijent stariji od 65 godina
 • putanja /clients/bonitet
 • u klasu BankClientBean dodati atribute datum rođenja i bonitet
-• 2.2 endpoint koji briše klijenta iz liste klijenta ukoliko klijent nema
-jednu od vrednosti: ime, prezime, email
+• 2.2 endpoint koji briše klijenta iz liste klijenta ukoliko klijent 
+nema jednu od vrednosti: ime, prezime, email
 • putanja /clients/delete
-• 2.3 endpoint koji vraća ukupan broj klijenata u listi klijenata koji
+• 2.3 endpoint koji vraća ukupan broj klijenata u listi klijenata koji 
 imaju manje od broja godina koje je prosleđeno kao parametar
 • putanja /clients/countLess/{years}
 • 2.4 endpoint koji prosečan broj godina klijenata iz liste klijenata
@@ -198,28 +201,22 @@ Zadatak 3
 • putanja /clients/changelocation/{clientId}
 • u klasu BankClientBean dodati atribut grad
 • novu vrednost mesta stanovanja proslediti kao QueryParameter
-• 3.2 endpoint koji vraća klijente banke koji žive u gradu koji je
-prosleđen kao parametar
+• 3.2 endpoint koji vraća klijente banke koji žive u gradu koji je prosleđen kao parametar
 • putanja /clients/from/{city}
 • 3.3 endpoint koji vraća klijente banke koji žive u gradu koji je
-prosleđen kao parametar i čiji je broj godina ispod broja
-prosleđenog kao drugi parametar
+prosleđen kao parametar i čiji je broj godina ispod broja prosleđenog kao drugi parametar
 • putanja /clients/findByCityAndAge
 
 Zadatak 4
-• Izmeniti zadatke 2.1, 3.4 i 3.5 iz prethodne teme tako da
-korisnik prosleđuje odgovarajuće parametre
-• 4.1 endpoint koji vraća „Hello yourName!“, gde yourName
-prosleđeno kao parametar
+• Izmeniti zadatke 2.1, 3.4 i 3.5 iz prethodne teme tako da korisnik prosleđuje odgovarajuće parametre
+• 4.1 endpoint koji vraća „Hello yourName!“, gde yourName prosleđeno kao parametar
 • putanja /greetings/{name}
 • 4.2 endpoint koji vraća sumu prvih n brojeva
 • putanja /sumaNiza/{n}
 • 4.3 endpoint koji predstavlja englesko-srpski rečnik i koji za reč na
 srpskom vrati odgovarajući prevod na engleski jezik
 • putanja /recnik/{trazena_rec}
-• DODATNO: ukoliko za traženu reč ne postoji prevod, tada ispisati „Rec
-trazena_rec ne postoji u recniku.“
-
+• DODATNO: ukoliko za traženu reč ne postoji prevod, tada ispisati „Rec trazena_rec ne postoji u recniku.“
 	 */
 	
 	}
