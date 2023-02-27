@@ -17,34 +17,60 @@ import com.iktpreobuka.restExamplesOne.entities.BankClientBean;
 @RestController
 @RequestMapping("/bankclients")
 public class BankClientRestController {
+	
 	// TODO GET - vrati sve klijente - /bankclients/
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<BankClientBean> getAll() {
+		/*
 		// zatražiti od baze sve klijente
 		List<BankClientBean> clients = new ArrayList<BankClientBean>();
-		clients.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "dimitrieski@uns.ac.rs"));
-		clients.add(new BankClientBean(2, "Marija", "Savic", "marija.savic.sa@ff.uns.ac.rs"));
-		clients.add(new BankClientBean(3, "Stiv", "The maniac", "stevethemaniac@ff.uns.ac.rs"));
+		clients.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "vd@uns.ac.rs"));
+		clients.add(new BankClientBean(2, "Marija", "Savic", "mss@ff.uns.ac.rs"));
+		clients.add(new BankClientBean(3, "Stiv", "The maniac", "stm@ff.uns.ac.rs"));
 		// vratiti klijente kao odgovor na zahtev
 		return clients;
+		*/
+		return getDB();
 	}
-
-	public List<BankClientBean> getDB() {
-		// zatražiti bazu klijenata
-		List<BankClientBean> clients2 = new ArrayList<BankClientBean>();
-		clients2.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "dimitrieski@uns.ac.rs"));
-		clients2.add(new BankClientBean(2, "Marija", "Savic", "marija.savic.sa@ff.uns.ac.rs"));
-		clients2.add(new BankClientBean(3, "Stiv", "The maniac", "stevethemaniac@ff.uns.ac.rs"));
-		return clients2;
-	}
-
+	
 	// TODO GET - vrati jednog klijenta - /bankclients/{id}
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public BankClientBean getOne(@PathVariable Integer id) {
+		
+		/* JAKO LOŠE NAPISAN KOD:
+		 * if(id.equals(1)){
+		 * return new BankClientBean(1, "Vladimir", "Dimitrieski", "vd@uns.ac.rs"));
+		 * } else if(id.equals(2)) {
+		 * return new BankClientBean(2, "Marija", "Savic", "mss@ff.uns.ac.rs"));
+		 * }
+		 * return null;
+		 */
+		
 		for (BankClientBean bcb : getDB()) {
 			if (bcb.getId().equals(id))
 				return bcb;
 		}
 		return null;
+	}
+
+	private List<BankClientBean> getDB() {
+		// zatražiti bazu klijenata
+		
+		/*
+		List<BankClientBean> clients2 = new ArrayList<BankClientBean>();
+		clients2.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "vd@uns.ac.rs"));
+		clients2.add(new BankClientBean(2, "Marija", "Savic", "mssa@ff.uns.ac.rs"));
+		clients2.add(new BankClientBean(3, "Stiv", "The maniac", "stma@ff.uns.ac.rs"));
+		return clients2;
+		*/
+		
+		List<BankClientBean> clients = new ArrayList<BankClientBean>();
+		clients.add(new BankClientBean(1, "Vladimir", "Dimitrieski", "vd@uns.ac.rs"));
+		clients.add(new BankClientBean(2, "Marija", "Savic", "mss@ff.uns.ac.rs"));
+		clients.add(new BankClientBean(3, "Stiv", "The maniac", "stm@ff.uns.ac.rs"));
+		// vratiti klijente kao odgovor na zahtev
+		return clients;
+		
 	}
 
 	// TODO POST - napravi novog korisnika - /bankclients/
