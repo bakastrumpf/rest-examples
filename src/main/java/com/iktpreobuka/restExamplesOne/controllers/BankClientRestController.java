@@ -87,9 +87,23 @@ public class BankClientRestController {
 	public BankClientBean changeClient (@RequestBody BankClientBean changedBcb, @PathVariable Integer id) {
 		for(BankClientBean bcb : getDB()) {
 			if(bcb.getId().equals(id)) {
-				bcb.setEmail(changedBcb.getEmail());
-				bcb.setName(changedBcb.getName());
-				bcb.setSurname(changedBcb.getSurname());
+				
+				/*
+				 * bcb.setEmail(changedBcb.getEmail());
+				 * bcb.setName(changedBcb.getName());
+				 * bcb.setSurname(changedBcb.getSurname());
+				 */
+				if(changedBcb.getEmail() != null) {
+					bcb.setEmail(changedBcb.getEmail());
+				}
+				if(changedBcb.getName() != null) {
+					bcb.setName(changedBcb.getName());
+				}
+				if(changedBcb.getSurname() != null) {
+					bcb.setSurname(changedBcb.getSurname());
+				}
+				
+				return bcb;
 			}
 		}
 		return null;
@@ -111,7 +125,30 @@ public class BankClientRestController {
 	}
 
 	// TODO DELETE - izbrisi klijenta - /bankclients/{id}
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "/b/{id}")
+	public BankClientBean betterDeleteClient(@PathVariable Integer id) {
+	List<BankClientBean> clients = getDB();
+	// u pozadini, FOREACH jeste ITERATOR, ali ume da zbuni DELETE jer ide kroz listu i briše elemente 1 po 1
+	// ovde bi  radilo jer bismo brisali samo jednog
+	// opcija 1: u petlji FOREACH nađemo klijenta, izađemo iz petlje i obrišemo ga
+	// opcija 2: naći ga po ID pa onda obrisati
+	Iterator<BankClientBean> it = clients.iterator();
+	while(it.hasNext()) {
+		BankClientBean bcb = it.next();
+		if(bcb.getId().equals(id)) {
+			it.remove();
+			return bcb;
+		}
+	}
+	return null;
+	
+	/*
+	// neće raditi zbog remove u FOR petlji
+	// možda bolje raditi preko findOne
+	// ne bismo smeli brisati iz liste kroz koju prolazimo pomoću FOREACH
+	// česta greška
+	 
+	@RequestMapping(method = RequestMethod.DELETE, value = "/d/{id}")
 	public BankClientBean deleteClient(@PathVariable Integer id) {
 		List<BankClientBean> clients = getDB();
 		for (BankClientBean bcb : clients) {
@@ -121,21 +158,23 @@ public class BankClientRestController {
 			}
 		}
 		return null;
-	}
+	*/
 
-//	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-//	public BankClientBean betterDeleteClient(@PathVariable Integer id) {
-//		List<BankClientBean> clients = getDB();
-//		Iterator<BankClientBean> it = clients.iterator();
-//		while (it.hasNext()) {
-//			BankClientBean bcb = it.next();
-//			if (bcb.getId().equals(id)) {
-//				it.remove();
-//				return bcb;
-//			}
-//		}
-//		return null;
-//	}
+	/*
+	 * treća mogućnost za brisanje: STREAM
+	@RequestMapping(method = RequestMethod.DELETE, value = "/s/{id}")
+	public BankClientBean streamDeleteClient(@PathVariable Integer id) {
+		List<BankClientBean> clients = getDB().stream().filter(x -> x.getId().equals(id)).findFirst().get();
+		if(bcb != null){
+		clients.remove(bcb);
+			return bcb;
+			}
+		return null;
+	}
+	*/
+	
+	
+	}
 
 	// TODO GET - pronaći korisnike sa zadatim imenom i prezimenom /
 	// findByNameAndSurname?name=da&surname=da
