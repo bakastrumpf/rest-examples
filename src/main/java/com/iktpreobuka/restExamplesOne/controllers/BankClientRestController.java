@@ -36,6 +36,10 @@ public class BankClientRestController {
 			clients.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs"));
 			clients.add(new BankClientBean(2, "M", "S", "mss@ff.uns.ac.rs"));
 			clients.add(new BankClientBean(3, "S", "TM", "stm@ff.uns.ac.rs"));
+			clients.add(new BankClientBean(4, "Pera", "Ždera", "pzm@mail.ma"));
+			clients.add(new BankClientBean(5, "Mornar", "Popaj", "popeye@pmail.pm"));
+			clients.add(new BankClientBean(6, "Duh", "IzLampe", "duh@opopaj.duh"));
+			clients.add(new BankClientBean(7, "Tasmanijski", "Đavo", "tasman@djavo.crtac"));
 		}
 		// vratiti klijente kao odgovor na zahtev
 		return clients;
