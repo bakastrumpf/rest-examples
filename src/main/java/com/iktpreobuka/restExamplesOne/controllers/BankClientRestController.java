@@ -32,10 +32,10 @@ public class BankClientRestController {
 		 * clients2.add(new BankClientBean(3, "S", "TM", "stma@ff.uns.ac.rs")); return
 		 * clients2;
 		 */
-		if(clients.size()==0) {
-		clients.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs"));
-		clients.add(new BankClientBean(2, "M", "S", "mss@ff.uns.ac.rs"));
-		clients.add(new BankClientBean(3, "S", "TM", "stm@ff.uns.ac.rs"));
+		if (clients.size() == 0) {
+			clients.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs"));
+			clients.add(new BankClientBean(2, "M", "S", "mss@ff.uns.ac.rs"));
+			clients.add(new BankClientBean(3, "S", "TM", "stm@ff.uns.ac.rs"));
 		}
 		// vratiti klijente kao odgovor na zahtev
 		return clients;
@@ -84,99 +84,84 @@ public class BankClientRestController {
 
 	// TODO PUT - izmeni korisnika - /bankclients/{id}
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-	public BankClientBean changeClient (@RequestBody BankClientBean changedBcb, @PathVariable Integer id) {
-		for(BankClientBean bcb : getDB()) {
-			if(bcb.getId().equals(id)) {
-				
-				/*
-				 * bcb.setEmail(changedBcb.getEmail());
-				 * bcb.setName(changedBcb.getName());
-				 * bcb.setSurname(changedBcb.getSurname());
-				 */
-				if(changedBcb.getEmail() != null) {
-					bcb.setEmail(changedBcb.getEmail());
-				}
-				if(changedBcb.getName() != null) {
-					bcb.setName(changedBcb.getName());
-				}
-				if(changedBcb.getSurname() != null) {
-					bcb.setSurname(changedBcb.getSurname());
-				}
-				
-				return bcb;
-			}
-		}
-		return null;
-	
-	/*
-	public BankClientBean changeList(@RequestBody BankClientBean changedBcb, @PathVariable Integer id) {
+	public BankClientBean changeClient(@RequestBody BankClientBean changedBcb, @PathVariable Integer id) {
 		for (BankClientBean bcb : getDB()) {
 			if (bcb.getId().equals(id)) {
-				bcb.setEmail(changedBcb.getEmail());
-				if (changedBcb.getName() != null)
+
+				/*
+				 * bcb.setEmail(changedBcb.getEmail()); bcb.setName(changedBcb.getName());
+				 * bcb.setSurname(changedBcb.getSurname());
+				 */
+				if (changedBcb.getEmail() != null) {
+					bcb.setEmail(changedBcb.getEmail());
+				}
+				if (changedBcb.getName() != null) {
 					bcb.setName(changedBcb.getName());
-				if (changedBcb.getSurname() != null)
+				}
+				if (changedBcb.getSurname() != null) {
 					bcb.setSurname(changedBcb.getSurname());
+				}
 				return bcb;
 			}
 		}
 		return null;
-	*/
+
+		/*
+		 * public BankClientBean changeList(@RequestBody BankClientBean
+		 * changedBcb, @PathVariable Integer id) { for (BankClientBean bcb : getDB()) {
+		 * if (bcb.getId().equals(id)) { bcb.setEmail(changedBcb.getEmail()); if
+		 * (changedBcb.getName() != null) bcb.setName(changedBcb.getName()); if
+		 * (changedBcb.getSurname() != null) bcb.setSurname(changedBcb.getSurname());
+		 * return bcb; } } return null;
+		 */
 	}
 
 	// TODO DELETE - izbrisi klijenta - /bankclients/{id}
 	@RequestMapping(method = RequestMethod.DELETE, value = "/b/{id}")
 	public BankClientBean betterDeleteClient(@PathVariable Integer id) {
-	List<BankClientBean> clients = getDB();
-	// u pozadini, FOREACH jeste ITERATOR, ali ume da zbuni DELETE jer ide kroz listu i briše elemente 1 po 1
-	// ovde bi  radilo jer bismo brisali samo jednog
-	// opcija 1: u petlji FOREACH nađemo klijenta, izađemo iz petlje i obrišemo ga
-	// opcija 2: naći ga po ID pa onda obrisati
-	Iterator<BankClientBean> it = clients.iterator();
-	while(it.hasNext()) {
-		BankClientBean bcb = it.next();
-		if(bcb.getId().equals(id)) {
-			it.remove();
-			return bcb;
-		}
-	}
-	return null;
-	
-	/*
-	// neće raditi zbog remove u FOR petlji
-	// možda bolje raditi preko findOne
-	// ne bismo smeli brisati iz liste kroz koju prolazimo pomoću FOREACH
-	// česta greška
-	 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/d/{id}")
-	public BankClientBean deleteClient(@PathVariable Integer id) {
 		List<BankClientBean> clients = getDB();
-		for (BankClientBean bcb : clients) {
+		// u pozadini, FOREACH jeste ITERATOR, ali ume da zbuni DELETE jer ide kroz
+		// listu i briše elemente 1 po 1
+		// ovde bi radilo jer bismo brisali samo jednog
+		// opcija 1: u petlji FOREACH nađemo klijenta, izađemo iz petlje i obrišemo ga
+		// opcija 2: naći ga po ID pa onda obrisati
+		Iterator<BankClientBean> it = clients.iterator();
+		while (it.hasNext()) {
+			BankClientBean bcb = it.next();
 			if (bcb.getId().equals(id)) {
-				clients.remove(bcb);
+				it.remove();
 				return bcb;
 			}
 		}
 		return null;
-	*/
 
-	/*
-	 * treća mogućnost za brisanje: STREAM
-	@RequestMapping(method = RequestMethod.DELETE, value = "/s/{id}")
-	public BankClientBean streamDeleteClient(@PathVariable Integer id) {
-		List<BankClientBean> clients = getDB().stream().filter(x -> x.getId().equals(id)).findFirst().get();
-		if(bcb != null){
-		clients.remove(bcb);
-			return bcb;
-			}
-		return null;
-	}
-	*/
-	
-	
+		/*
+		 * // neće raditi zbog remove u FOR petlji // možda bolje raditi preko findOne
+		 * // ne bismo smeli brisati iz liste kroz koju prolazimo pomoću FOREACH //
+		 * česta greška
+		 * 
+		 * @RequestMapping(method = RequestMethod.DELETE, value = "/d/{id}") public
+		 * BankClientBean deleteClient(@PathVariable Integer id) { List<BankClientBean>
+		 * clients = getDB(); for (BankClientBean bcb : clients) { if
+		 * (bcb.getId().equals(id)) { clients.remove(bcb); return bcb; } } return null;
+		 */
+
+		/*
+		 * treća mogućnost za brisanje: STREAM
+		 * 
+		 * @RequestMapping(method = RequestMethod.DELETE, value = "/s/{id}") public
+		 * BankClientBean streamDeleteClient(@PathVariable Integer id) {
+		 * List<BankClientBean> clients = getDB().stream().filter(x ->
+		 * x.getId().equals(id)).findFirst().get(); if(bcb != null){
+		 * clients.remove(bcb); return bcb; } return null; }
+		 */
+
 	}
 
-	// TODO GET - pronaći korisnike sa zadatim imenom i prezimenom /
+	// TODO GET - pronaći korisnike sa zadatim imenom i prezimenom
+	// /findByNameAndSurname
+	// {name}/{surname} tehnički bi moglo, vraća listu ako postoji više
+	// korisnika s istim imenom i prezimenom
 	// findByNameAndSurname?name=da&surname=da
 	@RequestMapping(method = RequestMethod.GET, value = "/findByNameAndSurname")
 	public List<BankClientBean> findByNameAndSurname(@RequestParam String name, @RequestParam String surname) {
