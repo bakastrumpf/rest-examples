@@ -172,6 +172,7 @@ public class BankClientRestController {
 		List<BankClientBean> retList = new ArrayList<>();
 		List<BankClientBean> clients = getDB();
 		for (BankClientBean bcb : clients) {
+			// if (bcb.getName().equals(name) && bcb.getSurname().equals(surname)) {
 			if (bcb.getName().equalsIgnoreCase(name) && bcb.getSurname().equalsIgnoreCase(surname)) {
 				retList.add(bcb);
 			}
@@ -179,22 +180,31 @@ public class BankClientRestController {
 		return retList;
 	}
 
+	// ZADATAK 1.1
+	// endpoint koji iz liste klijenata banke uzima samo email adrese svih klijenata i vraća listu email adresa 
 	// TODO GET - vratiti mejlove - /emails
-	@RequestMapping("/emails")
+	@RequestMapping(method = RequestMethod.GET, value = "/emails")
 	public List<String> getEmails() {
+		// pravimo listu klijenata
 		List<BankClientBean> clientsFromDB = getDB();
+		// pravimo listu mejlova
 		List<String> emails = new ArrayList<String>();
+		// prolazimo kroz listu - FOR
 		for (BankClientBean bcb : clientsFromDB) {
+			// pronađene mejlove dodajemo u listu mejlova koju ćemo prikazati
 			emails.add(bcb.getEmail());
 		}
 		return emails;
 	}
 
+	// ZADATAK 1.2
+	// • endpoint koji vraća listu koja sadrži imena klijenata, čije ime počinje na slovo prosleđeno kao parametar
+	// • putanja /clients/{firstLetter} 
 	@RequestMapping(method = RequestMethod.GET, value = "/clients/{firstLetter}")
 	public List<String> startsWith(@PathVariable String firstLetter) {
 		// pravimo povratnu listu
 		List<String> retStr = new ArrayList<String>();
-		// prolazi kroz sve korisnike
+		// prolazimo kroz sve korisnike
 		for (BankClientBean bcb : getDB()) {
 			// ako nečije ime počinje tim slovom, ide u listu
 			if (bcb.getName().startsWith(firstLetter)) {
@@ -203,47 +213,64 @@ public class BankClientRestController {
 		}
 		return retStr;
 	}
-
+	
+	// ZADATAK 1.3
+	// endpoint koji vraća listu koja sadrži imena i prezimena klijenata, čije ime počinje na slovo koje je prosleđeno kao
+	// parametar i čije prezime počinje na slovo koje je prosleđeno kao parametar 
+	// • putanja /clients/firstLetters 
+	@RequestMapping(method = RequestMethod.GET, value = "/clients/{name}/{surname}")
+	public List<String> startsWithInitials(@PathVariable String name, @PathVariable String surname) {
+		List<BankClientBean> clients = getDB();
+		List<String> found = new ArrayList<>();
+		for (BankClientBean bcb : clients) {
+			if (bcb.getName().startsWith(name) && bcb.getSurname().startsWith(surname)) {
+				found.add(bcb.getName() + " " + bcb.getSurname());
+			}
+		}
+		return found;
+	}
+	
 	/*
-	 * Zadatak 1 • Kreirati sledeće REST endpointe • 1.1 endpoint koji iz liste
-	 * klijenata banke uzima samo email adrese svih klijenata i vraća listu email
-	 * adresa • putanja /emails • 1.2 endpoint koji vraća listu koja sadrži imena
-	 * klijenata, čije ime počinje na slovo koje je prosleđeno kao parametar •
-	 * putanja /clients/{firstLetter} • 1.3 endpoint koji vraća listu koja sadrži
-	 * imena i prezimena klijenata, čije ime počinje na slovo koje je prosleđeno kao
-	 * parametar i čije prezime počinje na slovo koje je prosleđeno kao parametar •
-	 * putanja /clients/firstLetters • 1.4 endpoint koji vraća listu koja sadrži
-	 * imena klijenata, koja su sortirana u redosledu koji je prosleđen kao
-	 * parameter • putanja /clients/sort/{order}
+	 * Zadatak 1 • Kreirati sledeće REST endpointe 
+	 * • 1.1 endpoint koji iz liste klijenata banke uzima samo email adrese svih klijenata i vraća listu email adresa 
+	 * • putanja /emails 
+	 * • 1.2 endpoint koji vraća listu koja sadrži imena klijenata, čije ime počinje na slovo koje je prosleđeno kao parametar •
+	 * putanja /clients/{firstLetter} 
+	 * • 1.3 endpoint koji vraća listu koja sadrži imena i prezimena klijenata, čije ime počinje na slovo koje je prosleđeno kao
+	 * parametar i čije prezime počinje na slovo koje je prosleđeno kao parametar 
+	 * • putanja /clients/firstLetters 
+	 * • 1.4 endpoint koji vraća listu koja sadrži imena klijenata, koja su sortirana u redosledu koji je prosleđen kao parameter 
+	 * • putanja /clients/sort/{order}
 	 * 
-	 * Zadatak 2 • Kreirati sledeće REST endpointe • 2.1 endpoint koji u listi
-	 * klijenata banke, svakom klijentu, postavlja polje bonitet na ‘P’ (pozitivan)
-	 * ako je klijent mlađi od 65 godina ili ‘N’ negativan ako je klijent stariji od
-	 * 65 godina • putanja /clients/bonitet • u klasu BankClientBean dodati atribute
-	 * datum rođenja i bonitet • 2.2 endpoint koji briše klijenta iz liste klijenta
-	 * ukoliko klijent nema jednu od vrednosti: ime, prezime, email • putanja
-	 * /clients/delete • 2.3 endpoint koji vraća ukupan broj klijenata u listi
-	 * klijenata koji imaju manje od broja godina koje je prosleđeno kao parametar •
-	 * putanja /clients/countLess/{years} • 2.4 endpoint koji prosečan broj godina
-	 * klijenata iz liste klijenata • putanja /clients/averageYears
+	 * Zadatak 2 • Kreirati sledeće REST endpointe 
+	 * • 2.1 endpoint koji u listi klijenata banke, svakom klijentu postavlja polje bonitet na 
+	 * ‘P’ (pozitivan) ako je klijent mlađi od 65 godina ili ‘N’ negativan ako je klijent stariji od 65 godina 
+	 * • putanja /clients/bonitet • u klasu BankClientBean dodati atribute datum rođenja i bonitet 
+	 * • 2.2 endpoint koji briše klijenta iz liste klijenta ukoliko klijent nema jednu od vrednosti: ime, prezime, email 
+	 * • putanja /clients/delete 
+	 * • 2.3 endpoint koji vraća ukupan broj klijenata u listi klijenata koji imaju manje od broja godina koje je prosleđeno kao parametar 
+	 * • putanja /clients/countLess/{years} 
+	 * • 2.4 endpoint koji prosečan broj godina klijenata iz liste klijenata 
+	 * • putanja /clients/averageYears
 	 * 
-	 * Zadatak 3 • Kreirati sledeće REST endpointe • 3.1 endpoint koji omogućuje
-	 * izmenu mesta stanovanja klijenta • putanja /clients/changelocation/{clientId}
-	 * • u klasu BankClientBean dodati atribut grad • novu vrednost mesta stanovanja
-	 * proslediti kao QueryParameter • 3.2 endpoint koji vraća klijente banke koji
-	 * žive u gradu koji je prosleđen kao parametar • putanja /clients/from/{city} •
+	 * Zadatak 3 • Kreirati sledeće REST endpointe 
+	 * • 3.1 endpoint koji omogućuje izmenu mesta stanovanja klijenta • putanja /clients/changelocation/{clientId}
+	 * • u klasu BankClientBean dodati atribut grad 
+	 * • novu vrednost mesta stanovanja proslediti kao QueryParameter 
+	 * • 3.2 endpoint koji vraća klijente banke koji žive u gradu koji je prosleđen kao parametar 
+	 * • putanja /clients/from/{city} •
 	 * 3.3 endpoint koji vraća klijente banke koji žive u gradu koji je prosleđen
-	 * kao parametar i čiji je broj godina ispod broja prosleđenog kao drugi
-	 * parametar • putanja /clients/findByCityAndAge
+	 * kao parametar i čiji je broj godina ispod broja prosleđenog kao drugi parametar 
+	 * • putanja /clients/findByCityAndAge
 	 * 
-	 * Zadatak 4 • Izmeniti zadatke 2.1, 3.4 i 3.5 iz prethodne teme tako da
-	 * korisnik prosleđuje odgovarajuće parametre • 4.1 endpoint koji vraća „Hello
-	 * yourName!“, gde yourName prosleđeno kao parametar • putanja /greetings/{name}
-	 * • 4.2 endpoint koji vraća sumu prvih n brojeva • putanja /sumaNiza/{n} • 4.3
-	 * endpoint koji predstavlja englesko-srpski rečnik i koji za reč na srpskom
-	 * vrati odgovarajući prevod na engleski jezik • putanja /recnik/{trazena_rec} •
-	 * DODATNO: ukoliko za traženu reč ne postoji prevod, tada ispisati „Rec
-	 * trazena_rec ne postoji u recniku.“
+	 * Zadatak 4 • Izmeniti zadatke 2.1, 3.4 i 3.5 iz prethodne teme tako da korisnik prosleđuje odgovarajuće parametre 
+	 * • 4.1 endpoint koji vraća „Hello yourName!“, gde yourName prosleđeno kao parametar 
+	 * • putanja /greetings/{name}
+	 * • 4.2 endpoint koji vraća sumu prvih n brojeva 
+	 * • putanja /sumaNiza/{n} 
+	 * • 4.3 endpoint koji predstavlja englesko-srpski rečnik i koji za reč na srpskom vrati odgovarajući prevod na engleski jezik 
+	 * • putanja /recnik/{trazena_rec} 
+	 * • DODATNO: ukoliko za traženu reč ne postoji prevod, tada ispisati „Rec trazena_rec ne postoji u recniku.“
 	 */
 
 }
