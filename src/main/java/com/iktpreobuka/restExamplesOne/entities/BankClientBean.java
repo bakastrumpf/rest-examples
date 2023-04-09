@@ -5,17 +5,21 @@ public class BankClientBean {
 	protected String name;
 	protected String surname;
 	protected String email;
+	protected String dob;
+	protected String bonitet;
 	
 	public BankClientBean() {
 		super();
 	}
-	
-	public BankClientBean(Integer id, String name, String surname, String email) {
+
+	public BankClientBean(Integer id, String name, String surname, String email, String dob, String bonitet) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
+		this.dob = dob;
+		this.bonitet = bonitet;
 	}
 
 	public Integer getId() {
@@ -49,4 +53,23 @@ public class BankClientBean {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public String getBonitet() {
+		return bonitet;
+	}
+
+	public void setBonitet(String bonitet) {
+		this.bonitet = bonitet;
+	}
+	
+	
+	
 }

@@ -1,6 +1,7 @@
 package com.iktpreobuka.restExamplesOne.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -33,13 +34,13 @@ public class BankClientRestController {
 		 * clients2;
 		 */
 		if (clients.size() == 0) {
-			clients.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs"));
-			clients.add(new BankClientBean(2, "M", "S", "mss@ff.uns.ac.rs"));
-			clients.add(new BankClientBean(3, "S", "TM", "stm@ff.uns.ac.rs"));
-			clients.add(new BankClientBean(4, "Pera", "Ždera", "pzm@mail.ma"));
-			clients.add(new BankClientBean(5, "Mornar", "Popaj", "popeye@pmail.pm"));
-			clients.add(new BankClientBean(6, "Duh", "IzLampe", "duh@opopaj.duh"));
-			clients.add(new BankClientBean(7, "Tasmanijski", "Đavo", "tasman@djavo.crtac"));
+			clients.add(new BankClientBean(1, "V", "D", "vd@uns.ac.rs", "21-03-1987", "P"));
+			clients.add(new BankClientBean(2, "M", "S", "mss@ff.uns.ac.rs", "12-07-1968", "P"));
+			clients.add(new BankClientBean(3, "S", "TM", "stm@ff.uns.ac.rs", "11-03-1954", "N"));
+			clients.add(new BankClientBean(4, "Pera", "Ždera", "pzm@mail.ma", "21-09-1989", "P"));
+			clients.add(new BankClientBean(5, "Mornar", "Popaj", "popeye@pmail.pm", "01-04-1934", "N"));
+			clients.add(new BankClientBean(6, "Duh", "IzLampe", "duh@opopaj.duh", "19-06-1984", "P"));
+			clients.add(new BankClientBean(7, "Tasmanijski", "Đavo", "tasman@djavo.crtac", "29-08-1887", "N"));
 		}
 		// vratiti klijente kao odgovor na zahtev
 		return clients;
@@ -234,12 +235,31 @@ public class BankClientRestController {
 	// endpoint koji vraća listu koja sadrži imena klijenata, koja su sortirana u redosledu koji je prosleđen kao parameter 
 	// putanja /clients/sort/{order}
 	
+	@RequestMapping(value = "/sort/{order}", method = RequestMethod.GET)
+	public List<BankClientBean> sortByOrder(@PathVariable String name, @PathVariable String order) {
+		// ORDER je parametar koji ima vrednost A (ascending) ili D (descending)
+		// pravimo listu klijenata
+		// izvlačimo njihova imena
+		// prosleđujemo ORDER kao parametar za sortiranje
+		// sortiramo imena A ili D
+		
+		/*
+		List<BankClientBean> clients = getDB();
+		List<String> found = new ArrayList<>();
+		Collections.sort((List<BankClientBean>) list);
+		for(<BankClientBean> sorted : list) {
+			if (bcb.getName().equals(name))
+		}
+		*/
+		return null;
+	}
 	
 	
 	// ZADATAK 2.1
 	// endpoint koji u listi klijenata banke, svakom klijentu postavlja polje bonitet na 
 	// ‘P’ (pozitivan) ako je klijent mlađi od 65 godina ili ‘N’ negativan ako je klijent stariji od 65 godina 
-	// putanja /clients/bonitet • u klasu BankClientBean dodati atribute datum rođenja i bonitet 
+	// putanja /clients/bonitet 
+	// u klasu BankClientBean dodati atribute datum rođenja i bonitet 
 	
 	
 	
